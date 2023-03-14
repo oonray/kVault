@@ -1,0 +1,10 @@
+kind: ConfigMap
+metadata:
+  name: valult-config
+apiVersion: v1
+data:
+  vautt.conf: |-
+    listener "tcp" {
+      address     = "0.0.0.0:8200"
+      tls-diable  = 1
+    }

@@ -1,0 +1,29 @@
+piVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault
+  labels:
+    app: vault
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      volumes:
+        - name: vault-data
+          hostPath:
+            path: /disk1/vault
+            type: DirectoryOrCreate
+      containers:
+        - name: vault
+          image: hashicorp/vault
+          volumeMounts:
+            - name: vault-data
+              path: /vault/file
+          ports:
+            - cntainerPort: 3000
