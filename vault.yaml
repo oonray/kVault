@@ -24,6 +24,6 @@ spec:
           image: hashicorp/vault
           volumeMounts:
             - name: vault-data
-              path: /vault/file
+              mountPath: /vault/file
           ports:
             - containerPort: 8200
