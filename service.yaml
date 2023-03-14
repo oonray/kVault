@@ -9,5 +9,5 @@ spec:
   ports:
     - protocol: TCP
       name: vault
-      port: 3000
-      targetPort: 3000
+      port: 8200
+      targetPort: 8200
