@@ -1,11 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    linkerd.io/inject: enabled
-  name: vault
   labels:
     app: vault
+  name: vault
 spec:
   replicas: 1
   selector:
@@ -13,41 +11,44 @@ spec:
       app: vault
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: vault
     spec:
-      volumes:
-        - name: vault-config
-          configMap:
-            name: vault-config
-            items:
-              - key: vault.hcl
-                path: vault.hcl
-        - name: vault-data
-          hostPath:
-            path: /disk1/vault/data
-            type: DirectoryOrCreate
-        - name: vault-file
-          hostPath:
-            path: /disk1/vault/file
-            type: DirectoryOrCreate
       containers:
-        - name: vault
+        - command:
+            - vault
+            - server
+            - -config=/vault.hcl
           image: hashicorp/vault
+          name: vault
+          ports:
+            - containerPort: 8200
           securityContext:
             allowPrivilegeEscalation: false
             runAsUser: 0
-          command:
-            - vault
-            - server
-            - "-config=/vault.hcl"
           volumeMounts:
-            - name: vault-data
-              mountPath: /vault/data
-            - name: vault-file
-              mountPath: /vault/file
-            - name: vault-config
-              mountPath: /vault.hcl
+            - mountPath: /vault/data
+              name: vault-data
+            - mountPath: /vault/file
+              name: vault-file
+            - mountPath: /vault.hcl
+              name: vault-config
               subPath: vault.hcl
-          ports:
-            - containerPort: 8200
+      volumes:
+        - configMap:
+            items:
+              - key: vault.hcl
+                path: vault.hcl
+            name: vault-config
+          name: vault-config
+        - hostPath:
+            path: /disk1/vault/data
+            type: DirectoryOrCreate
+          name: vault-data
+        - hostPath:
+            path: /disk1/vault/file
+            type: DirectoryOrCreate
+          name: vault-file
+---
