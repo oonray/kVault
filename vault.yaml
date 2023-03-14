@@ -26,4 +26,4 @@ spec:
             - name: vault-data
               path: /vault/file
           ports:
-            - cntainerPort: 8200
+            - containerPort: 8200
