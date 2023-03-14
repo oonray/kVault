@@ -15,15 +15,33 @@ spec:
         app: vault
     spec:
       volumes:
+        - name: vault-config
+          configMap:
+            name: vault-config
+            items:
+              - key: vault.hcl
+                path: vault.hcl
         - name: vault-data
           hostPath:
-            path: /disk1/vault
+            path: /disk1/vault/data
+            type: DirectoryOrCreate
+        - name: vault-file
+          hostPath:
+            path: /disk1/vault/file
             type: DirectoryOrCreate
       containers:
         - name: vault
           image: hashicorp/vault
+          command:
+            - server
+            - "-config=/vault.hcl"
           volumeMounts:
             - name: vault-data
+              mountPath: /vault/data
+            - name: vault-file
               mountPath: /vault/file
+            - name: vautl-config
+              mountPath: /vautl.hcl
+              subPath: /vault.hcl
           ports:
             - containerPort: 8200
