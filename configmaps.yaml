@@ -6,7 +6,7 @@ data:
   vault.hcl: |-
     listener "tcp" {
       address     = "0.0.0.0:8200"
-      tls-diable  = 1
+      tls-disable  = true
     }
 
     storage "raft" {
