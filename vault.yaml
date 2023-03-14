@@ -32,6 +32,9 @@ spec:
       containers:
         - name: vault
           image: hashicorp/vault
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 0
           command:
             - vault
             - server
