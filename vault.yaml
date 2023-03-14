@@ -33,6 +33,7 @@ spec:
         - name: vault
           image: hashicorp/vault
           command:
+            - vault
             - server
             - "-config=/vault.hcl"
           volumeMounts:
