@@ -41,8 +41,8 @@ spec:
               mountPath: /vault/data
             - name: vault-file
               mountPath: /vault/file
-            - name: vautl-config
-              mountPath: /vautl.hcl
-              subPath: /vault.hcl
+            - name: vault-config
+              mountPath: /vault.hcl
+              subPath: vault.hcl
           ports:
             - containerPort: 8200
