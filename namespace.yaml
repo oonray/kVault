@@ -1,6 +1,8 @@
 kind: Namespace
 apiVersion: v1
 metadata:
+  annotations:
+    linkerd.io/inject: enabled
   name: vault
   labels:
     name: vault
